@@ -10,32 +10,32 @@ class IndecisionApp extends React.Component {
     }
   }
   handleDeleteOptions() {
-    this.setState(() => ({options: []}))
+    this.setState(() => ({ options: [] }))
   }
   handleDeleteOption(optionToRemove) {
-    this.setState((prevState) => ({
-      options: prevState.options.filter((option) => optionToRemove !== option)
+    this.setState(prevState => ({
+      options: prevState.options.filter(option => optionToRemove !== option)
     }))
-  } 
+  }
   handlePick() {
     const randomPick = Math.floor(Math.random() * this.state.options.length)
     const option = this.state.options[randomPick]
     alert(option)
-  } 
+  }
   addOption(option) {
     if (!option) {
-      return "Enter Valid Value to Item"
+      return 'Enter Valid Value to Item'
     } else if (this.state.options.indexOf(option) > -1) {
       return 'Option already Exist!'
     }
-    this.setState((prevState) => ({options: prevState.options.concat(option)}))
+    this.setState(prevState => ({ options: prevState.options.concat(option) }))
   }
   componentDidMount() {
     try {
       const json = localStorage.getItem('options')
       const options = JSON.parse(json)
       if (options) {
-        this.setState(() => ({options}))
+        this.setState(() => ({ options }))
       }
     } catch (e) {
       // do nothing at all
@@ -52,71 +52,63 @@ class IndecisionApp extends React.Component {
     const subtitle = this.props.subtitle
     return (
       <div>
-        <Header title={title} subtitle={subtitle}/>
+        <Header title={title} subtitle={subtitle} />
         <Action
-          hasOptions={this.state.options.length > 0} 
+          hasOptions={this.state.options.length > 0}
           handlePick={this.handlePick}
         />
-        <Options 
+        <Options
           options={this.state.options}
           handleDeleteOptions={this.handleDeleteOptions}
           handleDeleteOption={this.handleDeleteOption}
         />
-        <AddOption addOption={this.addOption}/>
+        <AddOption addOption={this.addOption} />
       </div>
     )
   }
 }
 
-
-
-const Header = (props) => {
-    return (
-      <div>
-        <h1>{props.title}</h1>
-        <h2>{props.subtitle}</h2>
-      </div>
-    )
+const Header = props => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+      <h2>{props.subtitle}</h2>
+    </div>
+  )
 }
-const Action = (props) => {
-    return (
-      <div>
-        <button
-          disabled={!props.hasOptions} 
-          onClick={props.handlePick}
-        > 
-          What Should I do?
-        </button>
-      </div>
-    )
+const Action = props => {
+  return (
+    <div>
+      <button disabled={!props.hasOptions} onClick={props.handlePick}>
+        What Should I do?
+      </button>
+    </div>
+  )
 }
-const Options = (props) => {
-    return (
-      <div>
-        <button onClick={props.handleDeleteOptions}>Remove All</button>
-        {
-          props.options.map((option) => 
-          <Option 
-            key={option}
-            optionText={option}
-            handleDeleteOption={props.handleDeleteOption}
-          />)
-        }   
-      </div>
-    )
+const Options = props => {
+  return (
+    <div>
+      <button onClick={props.handleDeleteOptions}>Remove All</button>
+      {props.options.map(option => (
+        <Option
+          key={option}
+          optionText={option}
+          handleDeleteOption={props.handleDeleteOption}
+        />
+      ))}
+    </div>
+  )
 }
 
-const Option = (props) => {
-    return (
-      <div>
-        {props.optionText}
-        <button
-          onClick={(e) => props.handleDeleteOption(props.optionText)}
-        >
-          remove
-        </button>
-      </div>
-    )
+const Option = props => {
+  return (
+    <div>
+      {props.optionText}
+      <button onClick={e => props.handleDeleteOption(props.optionText)}>
+        remove
+      </button>
+    </div>
+  )
 }
 
 Header.defaultProps = {
@@ -125,3 +117,4 @@ Header.defaultProps = {
 }
 
 ReactDOM.render(<IndecisionApp />, document.querySelector('#app'))
+//
